@@ -14,4 +14,4 @@ def home():
 
 @app.post("/predict")
 def predict(house: House) -> float:
-    house_prices.predict(house)
+    return house_prices.predict(house)
