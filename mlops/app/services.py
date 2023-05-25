@@ -5,6 +5,8 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 
+from app.models import House
+
 RANDOM_STATE = 42
 
 class HousePrices:
@@ -32,3 +34,13 @@ class HousePrices:
         self.model.fit(X_train.values, y_train)
         self.log_model_metris(X_test, y_test)
         self.save_model()
+
+    def load_model(self):
+         with open('app/data/model.pkl', 'rb') as file:
+            self.model = pickle.load(file)
+
+    def predict(self, house: House) -> float:
+        assert self.model is not None
+        house_list = house.to_list()
+        predictions = self.model.predict([house_list])
+        return predictions[0]
